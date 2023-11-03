@@ -60,8 +60,43 @@ fun draw-flag(land):
       | land == "faroe-islands" then: 160 # x10
     end
   end
+  
+  
+  fun get-inner-cross-width(): 
+    ask:
+      | land == "finland" then: 60 # x 20
+      | land == "denmark" then: 40 # x 10
+      | land == "iceland" then: 20 # x10
+      | land == "norway" then: 20 # x10
+      | land == "faroe-islands" then: 20 # x 10
+      | land == "sweden" then: 40 # x 20
+    end
+  end
+  
+  #fun get-outer-cross-width(): 
+  #  ask:
+  #    | land == "finland" then: 0
+  #    | land == "denmark" then: 0
+  #    | land == "iceland" then: 10 # x10
+  #    | land == "norway" then: 10 # x10
+  #    | land == "faroe-islands" then: 10 # x 10
+  #    | land == "sweden" then: 40 # x 20
+  #  end
+  
+  #end
+  
+  fun get-cross-x-position():
+    ask:
+      | land == "finland" then: 100 + (get-inner-cross-width() / 2) # x20
+      | land == "denmark" then: 120 + (get-inner-cross-width() / 2) # x20
+      | land == "norway" then: 70 + (get-inner-cross-width() / 2) # x20
+      | land == "sweden" then: 100 + (get-inner-cross-width() / 2) # x20
+      | land == "faroe-islands" then: 70 + (get-inner-cross-width() / 2) # x20
+      | land == "iceland" then: 70 + (get-inner-cross-width() / 2) # x20
+    end
+  end
 
- 
+  
   background-color = get_background_color_of_flag()
   inner-cross-color = get-inner-cross-color()
   outer-cross-color = get-outer-cross-color()
@@ -70,20 +105,23 @@ fun draw-flag(land):
   width = get-width()
   height = get-height()
   
+  #print(width)
+  #print(height)
+  
 
   background = rectangle(width, height, "solid", background-color) 
 
   first-horizontal-line= rectangle(width, 40, "solid", outer-cross-color)
-  second-horizontal-line = rectangle(width, 20, "solid", inner-cross-color)
+  second-horizontal-line = rectangle(width, get-inner-cross-width(), "solid", inner-cross-color)
 
-  first-vertical-line = rectangle(20, height, "solid", inner-cross-color)
-  second-vertical-line = rectangle(40, height, "solid", outer-cross-color)  #white
+  first-vertical-line = rectangle(get-inner-cross-width(), height, "solid", inner-cross-color)
+  second-vertical-line = rectangle(40, height, "solid", outer-cross-color)  
 
 
   put-image(second-horizontal-line, width / 2, height / 2,
-    put-image(first-vertical-line, height / 2, height / 2,
+    put-image(first-vertical-line, get-cross-x-position(), height / 2, # (line, x, y)
       put-image(first-horizontal-line, width / 2, height / 2,
-        put-image(second-vertical-line, height / 2, height / 2,
+        put-image(second-vertical-line,  get-cross-x-position(), height / 2,
           background))))
 end
 
@@ -99,6 +137,7 @@ denmark = draw-flag("denmark")
 finland = draw-flag("finland")
 
 # norsk
+
 sverige = sweden
 island = iceland
 faarooyene = faroe-islands
